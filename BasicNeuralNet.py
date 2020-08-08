@@ -3,16 +3,16 @@ import random
 
 class NeuralNet():
     def __init__(self):
-        self.no_layers = 3
+        self.no_layers = 2
         #input and target
-        self.X = 3
-        self.Y = 2
+        self.X = 0
+        self.Y = 1
         #inputs
-        self.layers = [0,0,0]
-        self.biases = [0,0,0]
-        self.weights = [0,0,0]
+        self.layers = [0,0]
+        self.biases = [0,0]
+        self.weights = [0,0]
         #w.x + b - help in the backpropagation algorithm
-        self.Z = [0,0,0]
+        self.Z = [0,0]
         #error
         self.error = 0 
 
@@ -35,11 +35,11 @@ class NeuralNet():
     def backpropagate(self):
         '''Adjust the weights to reduce the total error. Batch version'''
         lr = 0.1
-        new_weights = [0,0,0]
-        new_biases = [0,0,0]
+        new_weights = [0,0]
+        new_biases = [0,0]
         a = self.layers[self.no_layers - 1]
         self.error = abs(a - self.Y)
-        c = 0.5 * (self.error**2)
+        cost = self.cost(a)
         back_message = -self.error
         
         for i in reversed(range(1,self.no_layers)):
@@ -71,7 +71,7 @@ class NeuralNet():
         #batch version
         self.weights = new_weights
         self.biases = new_biases
-        print(self.error) 
+        print(a,self.error) 
             
     #######################################################
     ################# HELPER METHODS ######################
@@ -82,7 +82,7 @@ class NeuralNet():
 
     def derivative_sigmoid(self,z):
         '''derivative of sigmoid'''
-        return math.exp(-z)/(1+math.exp(-z))**2
+        return math.exp(-z)/((1+math.exp(-z))**2)
     
     def cost(self,x):
         '''The Mean Squared Error. 0.5 to ease differentiation'''
@@ -96,7 +96,7 @@ class NeuralNet():
 nn = NeuralNet()
 nn.initialize()
 
-for i in range(100):
+for i in range(10):
     nn.feedforward()
     nn.backpropagate()
 
