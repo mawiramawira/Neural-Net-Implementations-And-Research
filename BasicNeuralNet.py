@@ -5,7 +5,7 @@ class NeuralNet():
     def __init__(self):
         self.no_layers = 2
         #input and target
-        self.X = 0
+        self.X = 0.1
         self.Y = 1
         #inputs
         self.layers = [0,0]
@@ -23,7 +23,7 @@ class NeuralNet():
         '''Use the current weights to calculate the error'''
         for i in range(self.no_layers):
             if i == 0:
-                z = self.X + self.biases[i]
+                z = (self.X* self.weights[i]) + self.biases[i]
             else:
                 z = (self.layers[i-1] * self.weights[i]) + self.biases[i]
             
@@ -42,7 +42,7 @@ class NeuralNet():
         cost = self.cost(a)
         back_message = -self.error
         
-        for i in reversed(range(1,self.no_layers)):
+        for i in reversed(range(self.no_layers)):
             #how this c changed with the a it was calculated from
             dc_wrt_a = back_message
 
@@ -71,6 +71,7 @@ class NeuralNet():
         #batch version
         self.weights = new_weights
         self.biases = new_biases
+        print(self.weights)
         print(a,self.error) 
             
     #######################################################
