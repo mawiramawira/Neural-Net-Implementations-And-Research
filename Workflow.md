@@ -23,10 +23,8 @@ NOTES:
             [X] Fix upward update bug
                 [X] change self.e to -self.e
             [X] Do the same for bias
-
-        []Expand the net to several layers with several inputs
-
-    []Generalize the net to allow initialization via constructor
+        [X]Expand the net to several layers with several inputs
+    [X]Generalize the net to allow initialization via constructor
 []Test the net on real data
 []Complete the project
 
