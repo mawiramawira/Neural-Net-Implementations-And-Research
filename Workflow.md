@@ -24,6 +24,12 @@ NOTES:
                 [X] change self.e to -self.e
             [X] Do the same for bias
         [X]Expand the net to several layers with several inputs
+            []Change weight and bias formatting to prev so weights will be from not to 
+                []Therefore z[0] = w[-1]x[-1] + b[-1]
+    [X]Convert to numpy
+        weight matrix rows = previous layer
+        weight matrix columns = current layer we are feeding forward to
+        so each row shows how the previous layer is connected to each of the nodes in the current layer
     [X]Generalize the net to allow initialization via constructor
 []Test the net on real data
 []Complete the project
