@@ -4,7 +4,7 @@ NOTES:
 - each index a, is defined by the same index b and w so a[2] = f(z[2]+w[2]*input from previous layer)
 
 [X]Understanding of a neural net
-[]Create a basic net
+[X]Create a basic net
     [X] 3 layers - with 1 node per layer
     [X] Define the activation function
         [X] We will use the sigmoid for this case
@@ -24,14 +24,21 @@ NOTES:
                 [X] change self.e to -self.e
             [X] Do the same for bias
         [X]Expand the net to several layers with several inputs
-            []Change weight and bias formatting to prev so weights will be from not to 
-                []Therefore z[0] = w[-1]x[-1] + b[-1]
+            [X]Change weight and bias formatting to prev so weights will be from not to 
+                [X]Therefore z[0] = w[-1]x[-1] + b[-1]
     [X]Convert to numpy
         weight matrix rows = previous layer
         weight matrix columns = current layer we are feeding forward to
         so each row shows how the previous layer is connected to each of the nodes in the current layer
     [X]Generalize the net to allow initialization via constructor
+    []Understand the cde you've written - especially numpy functions
+        []Write documentation for your net
+
 []Test the net on real data
+    []Find a way to collect data on MNIST 
+    []Make it manageable with the net you wrote
+    []Train and test
+    
 []Complete the project
 
 []Use the net for research on various other approaches

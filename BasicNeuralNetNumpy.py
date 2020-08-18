@@ -10,10 +10,12 @@ class NeuralNet():
         #inputs
         self.biases = np.zeros(len(shapeLayers) - 1)
         self.weights = self.initializeWeights(shapeLayers)
+        self.earlyStopWatcher = math.inf
 
     #######################################################
     ################# MAIN ALGORITHMS #####################
     #######################################################
+    
     def feedforward(self):
         '''Use the current weights to calculate the error'''
         for i in range(self.noLayers - 1):  
@@ -37,20 +39,25 @@ class NeuralNet():
             dawrtz = self.derivativeSigmoid(self.inverseSigmoid(curLayer)).reshape((len(curLayer),1))
             #how z changes with the w it was calculated from - input from previous layer  
             dzwrtw = prevLayer.reshape((len(prevLayer),1))
-    
-            dcdw = dcwrta * np.matmul(dzwrtw,dawrtz.T)
-
-            #backMessage = np.mean(dcwrta* np.matmul(dawrtz,self.weights[i-1]))
+            #ca*az*zw
+            dcdw = dcwrta * np.sum(np.multiply(dzwrtw.T,dawrtz))
+            #since dcda changes with each layer we propagate the mean error of layer a backwards
+            backMessage = np.mean(backMessage * np.multiply(self.weights[i-1].T,dawrtz))
 
             self.weights[i-1] = self.weights[i-1] - lr*dcdw
 
-            #print(self.weights)
-
+        self.earlyStop(error)
         print(error,self.A[-1])
 
     #######################################################
     ################# HELPER METHODS ######################
     #######################################################
+    def earlyStop(self,error):
+        threshold = 0.000001 
+        if abs(self.earlyStopWatcher - error) < threshold:
+            raise SystemExit("Early stop threshold reached")
+
+        self.earlyStopWatcher = error
 
     def initializeLayers(self,shapeLayers,input):
         '''Will initialize the layers as per the input and shape of the layers'''
@@ -76,11 +83,11 @@ class NeuralNet():
             #mu, sigma, shape
             arr = np.random.normal(0,1,(prev_layer_shape,cur_layer_shape))
             #for testing purposes
-            #if i == len(shapeLayers) - 1:
-                #arr = np.array([(2,1), (1,1)])
-            #if i == 1:
-                #arr = np.array([(1,0)])
-
+            '''if i == len(shapeLayers) - 1:
+                arr = np.array([(2,2), (1,1)])
+            if i == 1:
+                arr = np.array([(1,0)])
+            '''
             a.append(arr)
             
         return a 
@@ -98,7 +105,7 @@ class NeuralNet():
         return np.exp(-z)/((1+np.exp(-z))**2)
 
 
-nn = NeuralNet(shapeLayers = [1,2,3],input = [0.1], target = [1])
+nn = NeuralNet(shapeLayers = [1,2,2],input = [0.1], target = [1])
 
 for i in range(10):
     nn.feedforward()
